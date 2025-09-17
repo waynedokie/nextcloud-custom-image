@@ -37,6 +37,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          no-cache: true
           push: true
           # IMPORTANT: Change this to your Docker Hub username
-          tags: waynedokie/nextcloud-ffmpeg:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/nextcloud-ffmpeg:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/nextcloud-ffmpeg:${{ github.sha }}
