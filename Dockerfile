@@ -8,4 +8,4 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg
 
 # Switch back to the default www-data user
-USER www-data
+#USER www-data
