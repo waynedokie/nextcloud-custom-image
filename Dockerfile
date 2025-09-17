@@ -11,11 +11,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     curl
 
-# --- ADD THIS SECTION to install go-vod ---
-# Download and install the go-vod binary for amd64 architecture
-RUN curl -L -o /tmp/go-vod.tar.gz https://github.com/alexballas/go-vod/releases/download/v0.8.2/go-vod_0.8.2_linux_amd64.tar.gz && \
-    tar -zxvf /tmp/go-vod.tar.gz -C /usr/local/bin/ go-vod && \
-    rm /tmp/go-vod.tar.gz
-# ----------------------------------------
+# --- THIS IS THE CORRECTED SECTION for installing go-vod ---
+# Define the version and architecture to make it easy to update
+ARG GOVOD_VERSION=0.8.2
+ARG TARGETARCH=amd64
 
-# The image's entrypoint script correctly handles switching to the www-data user.
+# Download the release, its checksum, verify it, and then install
+RUN curl -L -o /tmp/go-vod.tar.gz "https://github.com/alexballas/go-vod/releases/download/v${GOVOD_VERSION}/go-vod_${GOVOD_VERSION}_linux_${TARGETARCH}.tar.gz" && \
+    curl -L -o /tmp/checksums.txt "https://github.com/alexballas/go-vod/releases/download/v${GOVOD_VERSION}/checksums.txt" && \
+    cd /tmp && \
+    sha256sum -c checksums.txt --ignore-missing && \
+    tar -zxvf go-vod.tar.gz -C /usr/local/bin/ go-vod && \
+    rm /tmp/go-vod.tar.gz /tmp/checksums.txt
+# -----------------------------------------------------------

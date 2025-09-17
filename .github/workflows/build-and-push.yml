@@ -4,6 +4,9 @@ name: Build and Push Nextcloud-FFmpeg Image
 # 1. On a schedule (every Sunday at 3:15 AM)
 # 2. Manually, from the GitHub Actions tab
 on:
+  push:
+    paths:
+      - 'Dockerfile'
   schedule:
     - cron: '15 3 * * 0'
   workflow_dispatch:
