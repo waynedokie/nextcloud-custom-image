@@ -10,8 +10,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libimage-exiftool-perl \
     sudo \
     cron \
+    supervisor \
     curl && \
     rm -rf /var/lib/apt/lists/*
 
+# Copy the supervisor configuration into the image
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Set the main command to start both cron and apache
+CMD ["/usr/bin/supervisord"]
 CMD cron && apache2-foreground
