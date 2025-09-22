@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 # Create the cron job directly for the www-data user
-RUN echo "*/5 * * * * /usr/local/bin/php -f /var/www/html/cron.php" | crontab -u www-data -
+RUN echo "*/5 * * * * /usr/local/bin/php -d memory_limit=512M -f /var/www/html/cron.php >> /var/www/html/data/cron.log 2>&1" | crontab -u www-data -
 
 # Copy the supervisor configuration into the image
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
