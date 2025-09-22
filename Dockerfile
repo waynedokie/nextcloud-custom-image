@@ -19,4 +19,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set the main command to start both cron and apache
 CMD ["/usr/bin/supervisord"]
-CMD cron && apache2-foreground
+#CMD cron && apache2-foreground
